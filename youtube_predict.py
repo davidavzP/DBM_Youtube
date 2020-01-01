@@ -34,11 +34,36 @@ from sklearn.metrics import accuracy_score
 #     graph.render("youtube_data") 
 
 def main():
-    us_videos = pd.read_csv("youtube-new/USvideos.csv", escapechar="\\",skipinitialspace= True)
-    us_videos_categories = pd.read_json('../input/US_category_id.json')
+    us_videos = pd.read_csv("youtube-new/USvideos.csv")
+    us_videos_categories = pd.read_json('youtube-new/US_category_id.json')
+    us_videos.category_id = us_videos.category_id.astype('category')
+    
+    #converting tending date to datetieme format
+    us_videos['trending_date'] = pd.to_datetime(us_videos['trending_date'], format='%y.%d.%m').dt.date
+    us_videos.trending_date.value_counts().sort_index(inplace=True)
+    ##print(us_videos.head())
+    
+    #converting puplish_time to datetime format
+    publish_time = pd.to_datetime(us_videos.publish_time, format='%Y-%m-%dT%H:%M:%S.%fZ')
+    us_videos['publish_date'] = publish_time.dt.date
+    us_videos.drop('publish_time', axis=1, inplace=True)
+    
+    #get days trending
+    us_videos['days_to_trending'] = (us_videos.trending_date - us_videos.publish_date).dt.days
+    ##print(us_videos.describe(percentiles=[.05,.25,.5,.75,.95]))
+    
+    #create index
+    us_videos.set_index(['trending_date', 'video_id'], inplace=True)
+    ##print(us_videos.head())
+    
+    #dislike percentage
+    us_videos['dislike_percentage'] =us_videos['dislikes'] / (us_videos['dislikes'] + us_videos['likes'])
+    print(us_videos.dislike_percentage.describe(percentiles=[.05,.25,.5,.75,.95]))
+    
+    #clean up 
+    us_videos = us_videos[~us_videos.video_error_or_removed]
     
     
-
-
+    
 if __name__ == "__main__":
     main()
