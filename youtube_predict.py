@@ -47,22 +47,23 @@ def main():
 
     #get days trending
     us_videos['days_to_trending'] = (us_videos.trending_date - us_videos.publish_date).dt.days
-    print(us_videos.columns)
-    us_videos.drop(['publish_time','title','channel_title','publish_date','video_error_or_removed', 'thumbnail_link', 'tags', 'trending_date', 'description'], axis=1, inplace=True)
-    print(us_videos.columns)
-    print(us_videos.head().to_string())
+    us_videos.drop(['publish_time','title','channel_title','publish_date', 'thumbnail_link', 'tags', 'trending_date', 'description'], axis=1, inplace=True)
+    # print(us_videos.columns)
+    # print(us_videos.head().to_string())
     # print(us_videos.describe(percentiles=[.05,.25,.5,.75,.95]).to_string())
 
-    # #create index
-    # us_videos.set_index(['trending_date', 'video_id'], inplace=True)
-    # ##print(us_videos.head())
+
+    #create index
+    us_videos.set_index(['days_to_trending', 'video_id'], inplace=True)
+    # print(us_videos.head())
     #
-    # #dislike percentage
-    # us_videos['dislike_percentage'] =us_videos['dislikes'] / (us_videos['dislikes'] + us_videos['likes'])
+    #dislike percentage
+    us_videos['dislike_percentage'] =us_videos['dislikes'] / (us_videos['dislikes'] + us_videos['likes'])
     # print(us_videos.dislike_percentage.describe(percentiles=[.05,.25,.5,.75,.95]))
-    #
-    # #clean up
-    # us_videos = us_videos[~us_videos.video_error_or_removed]
+
+    #clean up
+    us_videos = us_videos[~us_videos.video_error_or_removed]
+    us_videos.drop(['video_error_or_removed'], axis=1, inplace=True)
     
     
     
