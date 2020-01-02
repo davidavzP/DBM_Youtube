@@ -48,13 +48,14 @@ def main():
     #get days trending
     us_videos['days_to_trending'] = (us_videos.trending_date - us_videos.publish_date).dt.days
     us_videos.drop(['publish_time','title','channel_title','publish_date', 'thumbnail_link', 'tags', 'trending_date', 'description'], axis=1, inplace=True)
+
     # print(us_videos.columns)
     # print(us_videos.head().to_string())
     # print(us_videos.describe(percentiles=[.05,.25,.5,.75,.95]).to_string())
 
 
     #create index
-    us_videos.set_index(['days_to_trending', 'video_id'], inplace=True)
+    # us_videos.set_index(['days_to_trending', 'video_id'], inplace=True)
     # print(us_videos.head())
     #
     #dislike percentage
@@ -64,6 +65,15 @@ def main():
     #clean up
     us_videos = us_videos[~us_videos.video_error_or_removed]
     us_videos.drop(['video_error_or_removed'], axis=1, inplace=True)
+    print(us_videos.info())
+
+    column_name = us_videos.columns[1:5].to_list()
+    column_name.append(us_videos.columns[9])
+    print(column_name)
+    clf = tree.DecisionTreeClassifier()
+    # clf_train = clf.fit(us_videos.loc[0:,column_name], us_videos["days_to_trending"])
+
+
     
     
     
