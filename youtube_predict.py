@@ -70,10 +70,18 @@ def main():
 
     column_name = us_videos.columns[1:5].to_list()
     # column_name.append(us_videos.columns[9])
-    print(column_name)
     clf = tree.DecisionTreeClassifier()
-    clf_train = clf.fit(us_videos.loc[0:,column_name], us_videos["days_to_trending"])
 
+    msk = np.random.rand(len(us_videos)) < 0.9
+    train = us_videos[msk]
+    test = us_videos[~msk]
+    clf_train = clf.fit(train.loc[0:,column_name], train["days_to_trending"])
+
+    clf_pred = clf_train.predict(test.loc[0:,column_name])
+
+    print(accuracy_score(clf_pred,test["days_to_trending"]))
+
+    # tree.plot_tree(clf_train)
 
     
     
