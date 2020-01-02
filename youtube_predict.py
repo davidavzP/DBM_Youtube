@@ -57,9 +57,10 @@ def main():
     #create index
     # us_videos.set_index(['days_to_trending', 'video_id'], inplace=True)
     # print(us_videos.head())
-    #
+
     #dislike percentage
-    us_videos['dislike_percentage'] =us_videos['dislikes'] / (us_videos['dislikes'] + us_videos['likes'])
+    us_videos['dislike_percentage'] = us_videos['dislikes'] / (us_videos['dislikes'] + us_videos['likes'])
+    us_videos['dislike_percentage'] = us_videos['dislike_percentage'].astype('float32')
     # print(us_videos.dislike_percentage.describe(percentiles=[.05,.25,.5,.75,.95]))
 
     #clean up
@@ -68,10 +69,10 @@ def main():
     print(us_videos.info())
 
     column_name = us_videos.columns[1:5].to_list()
-    column_name.append(us_videos.columns[9])
+    # column_name.append(us_videos.columns[9])
     print(column_name)
     clf = tree.DecisionTreeClassifier()
-    # clf_train = clf.fit(us_videos.loc[0:,column_name], us_videos["days_to_trending"])
+    clf_train = clf.fit(us_videos.loc[0:,column_name], us_videos["days_to_trending"])
 
 
     
