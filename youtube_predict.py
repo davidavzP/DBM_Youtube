@@ -5,6 +5,9 @@ import graphviz
 from sklearn import tree, preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeRegressor
+from sklearn import metrics
+from sklearn.linear_model import LinearRegression, Lars, Ridge
 
 
 # def main():
@@ -82,7 +85,9 @@ def main():
     print(accuracy_score(clf_pred,test["days_to_trending"]))
 
     # tree.plot_tree(clf_train)
-
+    # dot_data = tree.export_graphviz(clf, out_file=None) 
+    # graph = graphviz.Source(dot_data) 
+    # graph.render("youtube_data_tree_1") 
     
     
     
