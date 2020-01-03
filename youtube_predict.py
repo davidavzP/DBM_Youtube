@@ -5,9 +5,10 @@ import graphviz
 from sklearn import tree, preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from sklearn.tree import DecisionTreeRegressor
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn import metrics
 from sklearn.linear_model import LinearRegression, Lars, Ridge
+from numpy.lib.type_check import nan_to_num
 
 
 # def main():
@@ -88,10 +89,23 @@ def main():
     # dot_data = tree.export_graphviz(clf, out_file=None) 
     # graph = graphviz.Source(dot_data) 
     # graph.render("youtube_data_tree_1") 
-    
+
+    ###PREDICTING CATEGORY based on video stats
+    us_videos = us_videos.drop(["video_id"], axis=1, inplace=False)
     X = us_videos.drop(['category_id'], axis=1, inplace=False)
+    X.fillna(X.mean(), inplace=True)
     y = us_videos['category_id']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=44, shuffle =True)
     
+    DTCM = DecisionTreeClassifier(criterion='entropy',max_depth=20,random_state=33) #criterion can be entropy
+    DTCM = DTCM.fit(X_train, y_train)
+    
+    DTCM_pred = DTCM.predict(X_test)
+
+    print(accuracy_score(DTCM_pred,y_test))
+    
+
     
 if __name__ == "__main__":
     main()
