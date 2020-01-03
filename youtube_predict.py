@@ -89,6 +89,8 @@ def main():
     # graph = graphviz.Source(dot_data) 
     # graph.render("youtube_data_tree_1") 
     
+    X = us_videos.drop(['category_id'], axis=1, inplace=False)
+    y = us_videos['category_id']
     
     
 if __name__ == "__main__":
