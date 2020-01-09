@@ -16,10 +16,10 @@ def main():
     categories = {int(category['id']): category['snippet']['title'] for category in us_videos_categories['items']}
     
     ##Category Graph
-    sns.set(font_scale=1.5,rc={'figure.figsize':(11.7,8.27)})
+    sns.set(font_scale=1.5,rc={'figure.figsize':(16,9)})
     sns_ax = sns.countplot([categories[i] for i in us_videos.category_id])
     _, labels = plt.xticks()
-    _ = sns_ax.set_xticklabels(labels, rotation=60)
+    _ = sns_ax.set_xticklabels(labels, rotation=30)
     plt.show()
     
     #converting tending date to datetieme format
