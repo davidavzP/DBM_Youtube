@@ -30,9 +30,13 @@ def main():
     publish_time = pd.to_datetime(us_videos.publish_time, format='%Y-%m-%dT%H:%M:%S.%fZ')
     us_videos['publish_date'] = publish_time.dt.date
 
+    # print(us_videos.info())
+
     #get days trending
     us_videos['days_to_trending'] = (us_videos.trending_date - us_videos.publish_date).dt.days
-    us_videos.drop(['publish_time','title','channel_title','publish_date', 'thumbnail_link', 'tags', 'trending_date', 'description'], axis=1, inplace=True)
+    us_videos.drop(['publish_time','title','publish_date', 'thumbnail_link', 'tags', 'trending_date', 'description'], axis=1, inplace=True)
+    us_videos['channel_title'] = us_videos["channel_title"].str.decode("UTF-8").astype("category")
+    us_videos["channel_title"] = us_videos["channel_title"].cat.codes
 
     #create index
     # us_videos.set_index(['days_to_trending', 'video_id'], inplace=True)
@@ -45,7 +49,6 @@ def main():
     #clean up
     us_videos = us_videos[~us_videos.video_error_or_removed]
     us_videos.drop(['video_error_or_removed'], axis=1, inplace=True)
-    # print(us_videos.columns)
 
     # groups = us_videos.groupby(["category_id"])
     #
@@ -63,12 +66,14 @@ def main():
     #
     #     print(accuracy_score(clf_pred,test["days_to_trending"]))
 
-    column_name = us_videos.columns[1:5].to_list()
+    # print(us_videos.columns)
+    column_name = us_videos.columns[1:9].to_list()
     clf = tree.DecisionTreeClassifier()
 
     msk = np.random.rand(len(us_videos)) < 0.5
     train = us_videos[msk]
     test = us_videos[~msk]
+    print(column_name)
     clf_train = clf.fit(train.loc[0:,column_name], train["days_to_trending"])
 
     clf_pred = clf_train.predict(test.loc[0:,column_name])
@@ -94,7 +99,6 @@ def main():
     DTCM_pred = DTCM.predict(X_test)
 
     print(accuracy_score(DTCM_pred,y_test))
-    
 
     
 if __name__ == "__main__":
