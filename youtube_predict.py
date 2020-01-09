@@ -26,14 +26,16 @@ from numpy.lib.type_check import nan_to_num
 #     train_attr, test_attr, train_tar, test_tar = train_test_split(df.loc[0:,column_name],df["days_to_trend"],test_size=0.5)
 #     clf = tree.DecisionTreeClassifier()
     
-#     # train_clf = 
-#     # pred_clf = train_clf.predict(test_attr)
-#     # acc_score = accuracy_score(test_tar, pred_clf)
+#     train_clf = clf.fit(train_attr, train_tar)
+#     pred_clf = train_clf.predict(test_attr)
+#     acc_score = accuracy_score(test_tar, pred_clf)
     
-#     tree.plot_tree(clf.fit(train_attr, train_tar))
-#     dot_data = tree.export_graphviz(clf, out_file=None) 
-#     graph = graphviz.Source(dot_data) 
-#     graph.render("youtube_data") 
+#     print(acc_score)
+    
+#     # tree.plot_tree(clf.fit(train_attr, train_tar))
+#     # dot_data = tree.export_graphviz(clf, out_file=None) 
+#     # graph = graphviz.Source(dot_data) 
+#     # graph.render("youtube_data") 
 
 def main():
     us_videos = pd.read_csv("youtube-new/USvideos.csv")
