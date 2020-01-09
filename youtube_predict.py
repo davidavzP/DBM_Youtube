@@ -16,11 +16,8 @@ def main():
     categories = {int(category['id']): category['snippet']['title'] for category in us_videos_categories['items']}
     
     ##Category Graph
-<<<<<<< HEAD
-    sns.set(font_scale=1.5,rc={'figure.figsize':(9.5,4.13)})
-=======
+
     sns.set(font_scale=1.5,rc={'figure.figsize':(16,9)})
->>>>>>> 5aa0356f7f76a8afd298fbd4a226d1f69469f6a4
     sns_ax = sns.countplot([categories[i] for i in us_videos.category_id])
     _, labels = plt.xticks()
     _ = sns_ax.set_xticklabels(labels, rotation=30)
