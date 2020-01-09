@@ -16,10 +16,14 @@ def main():
     categories = {int(category['id']): category['snippet']['title'] for category in us_videos_categories['items']}
     
     ##Category Graph
+<<<<<<< HEAD
     sns.set(font_scale=1.5,rc={'figure.figsize':(9.5,4.13)})
+=======
+    sns.set(font_scale=1.5,rc={'figure.figsize':(16,9)})
+>>>>>>> 5aa0356f7f76a8afd298fbd4a226d1f69469f6a4
     sns_ax = sns.countplot([categories[i] for i in us_videos.category_id])
     _, labels = plt.xticks()
-    _ = sns_ax.set_xticklabels(labels, rotation=60)
+    _ = sns_ax.set_xticklabels(labels, rotation=30)
     plt.show()
     
     #converting tending date to datetieme format
@@ -30,21 +34,21 @@ def main():
     publish_time = pd.to_datetime(us_videos.publish_time, format='%Y-%m-%dT%H:%M:%S.%fZ')
     us_videos['publish_date'] = publish_time.dt.date
 
-    # print(us_videos.info())
+    print(us_videos.info())
 
     #get days trending
     us_videos['days_to_trending'] = (us_videos.trending_date - us_videos.publish_date).dt.days
     us_videos.drop(['publish_time','title','publish_date', 'thumbnail_link', 'tags', 'trending_date', 'description'], axis=1, inplace=True)
+
     us_videos['channel_title'] = us_videos["channel_title"].str.decode("UTF-8").astype("category")
     us_videos["channel_title"] = us_videos["channel_title"].cat.codes
+
+    us_videos['video_id'] = us_videos["video_id"].str.decode("UTF-8").astype("category")
+    us_videos["video_id"] = us_videos["video_id"].cat.codes
 
     #create index
     # us_videos.set_index(['days_to_trending', 'video_id'], inplace=True)
     # print(us_videos.head())
-
-    #dislike percentage
-    us_videos['dislike_percentage'] = us_videos['dislikes'] / (us_videos['dislikes'] + us_videos['likes'])
-    us_videos['dislike_percentage'] = us_videos['dislike_percentage'].astype('float32')
 
     #clean up
     us_videos = us_videos[~us_videos.video_error_or_removed]
@@ -67,7 +71,7 @@ def main():
     #     print(accuracy_score(clf_pred,test["days_to_trending"]))
 
     # print(us_videos.columns)
-    column_name = us_videos.columns[1:9].to_list()
+    column_name = us_videos.columns[0:9].to_list()
     clf = tree.DecisionTreeClassifier()
 
     msk = np.random.rand(len(us_videos)) < 0.5
