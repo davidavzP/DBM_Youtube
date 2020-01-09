@@ -9,6 +9,7 @@ from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn import metrics
 from sklearn.linear_model import LinearRegression, Lars, Ridge
 from numpy.lib.type_check import nan_to_num
+import seaborn as sns
 
 
 # def main():
@@ -41,6 +42,14 @@ def main():
     us_videos = pd.read_csv("youtube-new/USvideos.csv")
     us_videos_categories = pd.read_json('youtube-new/US_category_id.json')
     us_videos.category_id = us_videos.category_id.astype('category')
+    categories = {int(category['id']): category['snippet']['title'] for category in us_videos_categories['items']}
+    
+    ##Category Graph
+    sns.set(font_scale=1.5,rc={'figure.figsize':(11.7,8.27)})
+    sns_ax = sns.countplot([categories[i] for i in us_videos.category_id])
+    _, labels = plt.xticks()
+    _ = sns_ax.set_xticklabels(labels, rotation=60)
+    plt.show()
     
     #converting tending date to datetieme format
     us_videos['trending_date'] = pd.to_datetime(us_videos['trending_date'], format='%y.%d.%m').dt.date
