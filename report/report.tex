@@ -18,6 +18,38 @@ There is a lot of information in these datasets that we are not using but would 
 Overall, it was interesting challenge for the decision tree algorithm to predict when a video will go trending.
 \section*{Implementation}
 %%TALK about exactly what our code is doing to achieve the goal
+
+%Our aim
+We want to build a decision tree to help us to predic the date based on our input data.
+%
+For decision tree, our input should be integer instead of text, so we can not input our data directly.
+%
+It means we need to preprocess our data into the right format.
+%
+At first, we choose these attributes that are helpful for our target. For attributes that are text formats we just convert them into category type because of the need of integer type input of decision tree.
+%
+And we have two different time in raw data attributes, we can summrize them by the duration.
+%
+Because our target is the time it takes from published time. So we can work out this duration and replace other dates.
+%
+There are also some data that might have some errors and they are already marked.
+%
+We also need to clean these data.
+%
+Then we split our data set into training and testing part.
+%
+We create a decision tree and input our train attribute data and target data to get a trained model.
+%
+After that we input our test data to see the accuracy of our decision tree.
+%
+In addition, we also add a tree for predicting the category of videos. It works much better.
+
+%How we do it
+
+%preprocessing data
+
+%Build our tree
+
 \section*{Results}
 \par
     After parsing our data and skimming it down to just the right columns we still struggled to make the decision tree preform well.
